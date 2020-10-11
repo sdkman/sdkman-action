@@ -19,7 +19,7 @@ N/A
 ## Example usage
 
 ```yaml
-- uses: actions/sdkman-action@v1
+- uses: sdkman/sdkman-action@v1-preview
   with:
     candidate: java
     version: 15.0.0-amzn
