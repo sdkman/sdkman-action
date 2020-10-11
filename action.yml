@@ -1,5 +1,5 @@
 # action.yml
-name: 'SDKMAN!'
+name: 'Run SDKMAN!'
 description: 'Greet someone and record the time'
 inputs:
   candidate:  # id of input
