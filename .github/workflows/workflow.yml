@@ -7,8 +7,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup Java 8.0.265.hs-adpt
+    - name: Setup Java 15.0.0-amzn
+      id: setup-java
       uses: ./
       with:
         candidate: java
-        version: 8.0.265.hs-adpt
+        version: 15.0.0-amzn
+    - name: Verify Java 15.0.0-amzn
+      run: test/verify-java.sh 15.0.0 "${{ steps.setup-java.outputs.path }}" "${{ steps.setup-java.outputs.version }}"
