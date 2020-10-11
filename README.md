@@ -1,22 +1,20 @@
 # SDKMAN! docker action
 
-This action installs "Hello World" or "Hello" + the name of a person to greet to the log.
+This action installs any `candidate` via [sdkman](https://sdkman.io/).
 
 ## Inputs
 
 ### `candidate`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** The name of the candidate to install.
 
 ### `version`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** The version of the candidate to install.
 
 ## Outputs
 
-### `time`
-
-The time we greeted you.
+N/A
 
 ## Example usage
 
