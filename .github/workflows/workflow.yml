@@ -24,4 +24,4 @@ jobs:
         java-version: ${{ matrix.version }}
         jdkFile: ${{ github.workspace }}/.sdkman/archives/java-${{ matrix.version }}.zip
     - name: Verify Java ${{ matrix.version }}
-      run: test/verify-java.sh 15 "${{ steps.setup-java.outputs.path }}" "${{ steps.setup-java.outputs.version }}"
+      run: test/verify-java.sh ${{ matrix.version }} "${{ steps.setup-java.outputs.path }}" "${{ steps.setup-java.outputs.version }}"
