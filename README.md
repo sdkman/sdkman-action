@@ -14,7 +14,9 @@ This action installs any `candidate` via [sdkman](https://sdkman.io/).
 
 ## Outputs
 
-N/A
+### `file`
+
+Filename of the downloaded archive.
 
 ## Example usage
 
@@ -27,6 +29,6 @@ N/A
     id: setup-java
     with:
       java-version: 15.0.0
-      jdkFile: ${{ github.workspace }}/.sdkman/archives/java-15.0.0-amzn.zip
+      jdkFile: ${{ github.workspace }}/.sdkman/archives/${{ steps.sdkman.outputs.file }}
 - run: java --version
 ```

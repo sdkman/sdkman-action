@@ -14,6 +14,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Setup Java ${{ matrix.version }}
+      id: sdkman
       uses: ./
       with:
         candidate: java
@@ -22,6 +23,6 @@ jobs:
       id: setup-java
       with:
         java-version: 15.0.0
-        jdkFile: ${{ github.workspace }}/.sdkman/archives/java-${{ matrix.version }}.zip
+        jdkFile: ${{ github.workspace }}/.sdkman/archives/${{ steps.sdkman.outputs.file }}
     - name: Verify Java ${{ matrix.version }}
       run: java --version
