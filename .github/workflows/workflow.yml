@@ -8,7 +8,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-        candidate: [ java ]
         version: [ 15.0.0.hs-adpt, 15.0.0.j9-adpt, 15.0.0-amzn, 15.0.0-zulu, 15.0.0.fx-zulu, 15.0.0.fx-librca, 15.0.0-librca, 15-open, 15.0.0-sapmchn ]
     runs-on: ${{ matrix.os }}
     steps:
@@ -17,7 +16,7 @@ jobs:
     - name: Setup Java ${{ matrix.version }}
       uses: ./
       with:
-        candidate: ${{ matrix.candidate }}
+        candidate: java
         version: ${{ matrix.version }}
     - uses: actions/setup-java@v1
       id: setup-java
@@ -25,4 +24,4 @@ jobs:
         java-version: ${{ matrix.version }}
         jdkFile: ${{ github.workspace }}/.sdkman/archives/java-${{ matrix.version }}.zip
     - name: Verify Java ${{ matrix.version }}
-      run: java --version
+      run: test/verify-java.sh 15 "${{ steps.setup-java.outputs.path }}" "${{ steps.setup-java.outputs.version }}"
