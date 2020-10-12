@@ -22,6 +22,7 @@ Filename of the downloaded archive.
 
 ```yaml
 - uses: sdkman/sdkman-action@v1-preview
+  id: sdkman
   with:
     candidate: java
     version: 15.0.0-amzn
