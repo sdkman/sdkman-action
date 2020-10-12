@@ -8,8 +8,11 @@ inputs:
   version: # id of input
     description: 'Who to greet'
     required: true
+  platform: # id of input
+    description: 'Who to greet'
+    required: false
 outputs:
-  time: # id of output
+  file: # id of output
     description: 'The time we greeted you'
 runs:
   using: 'docker'
@@ -17,3 +20,4 @@ runs:
   args:
     - ${{ inputs.candidate }}
     - ${{ inputs.version }}
+    - ${{ inputs.platform }}
