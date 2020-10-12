@@ -16,7 +16,5 @@ else
   curl -L -o $1-$2.zip  https://api.sdkman.io/2/broker/download/$1/$2/$3
 fi
 
-mkdir -p /github/workspace/
-cp $1-$2.zip /github/workspace/
 file=$1-$2.zip
 echo "::set-output name=file::$file"
