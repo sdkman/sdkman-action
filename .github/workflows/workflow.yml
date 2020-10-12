@@ -10,7 +10,7 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         candidate: [ java ]
         version: [ 11.0.2-open, 11.0.8-librca, 11.0.8-zulu, 11.0.8-amzn, 11.0.8.hs-adpt ]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
