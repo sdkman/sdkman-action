@@ -28,25 +28,29 @@ function __sdkman_echo_green() {
 	__sdkman_echo "32m" "$1"
 }
 
-base_name="$1-$2"
+candidate=$1
+version=$2
+platform_param=$3
 
-binary_input=${base_name}.bin
-zip_output=${base_name}.zip
+base_name="${candidate}-${version}"
+
+binary_input="/tmp/${base_name}.bin"
+zip_output="/tmp/${base_name}.zip"
 
 post_installation_hook=hook_post_${candidate}_${version}.sh
 if [ -z "$3" ]; then
-  curl -L -o $base_name.bin  https://api.sdkman.io/2/broker/download/$1/$2
-  curl https://api.sdkman.io/2/hooks/post/$1/$2 >| "$post_installation_hook"
+  curl -L -o $binary_input  https://api.sdkman.io/2/broker/download/$candidate/$version
+  curl https://api.sdkman.io/2/hooks/post/$candidate/$version >| "$post_installation_hook"
 else
-  curl -L -o $base_name.bin  https://api.sdkman.io/2/broker/download/$1/$2/$3
-  ls
-  curl https://api.sdkman.io/2/hooks/post/$1/$2/$3 >| "$post_installation_hook"
+  curl -L -o $binary_input  https://api.sdkman.io/2/broker/download/$candidate/$version/$platform_param
+  curl https://api.sdkman.io/2/hooks/post/$candidate/$version/$platform_param >| "$post_installation_hook"
 fi
 
 source $post_installation_hook
 __sdkman_post_installation_hook
 
-ls /tmp
+mkdir -p /github/workspace/
+cp $zip_output /github/workspace/
 
 file="${base_name}.zip"
 echo "::set-output name=file::$file"
