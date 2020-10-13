@@ -1,15 +1,5 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-  echo "Must provide candidate"
-  exit 1
-fi
-
-if [ -z "$2" ]; then
-  echo "Must provide version"
-  exit 1
-fi
-
 function __sdkman_echo_debug() {
 	if [[ "$sdkman_debug_mode" == 'true' ]]; then
 		echo "$1"
@@ -49,8 +39,4 @@ fi
 source $post_installation_hook
 __sdkman_post_installation_hook
 
-mkdir -p /github/workspace/
-cp $zip_output /github/workspace/
-
-file="${base_name}.zip"
-echo "::set-output name=file::$file"
+echo "::set-output name=file::$zip_output"

@@ -14,10 +14,10 @@ inputs:
 outputs:
   file: # id of output
     description: 'The time we greeted you'
+    value: ${{ steps.sdkman.outputs.file }}
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.candidate }}
-    - ${{ inputs.version }}
-    - ${{ inputs.platform }}
+  using: 'composite'
+  steps:
+    - id: sdkman
+      run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.candidate }} ${{ inputs.version }} ${{ inputs.platform }}
+      shell: bash
