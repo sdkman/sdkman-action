@@ -16,5 +16,5 @@ runs:
   using: 'composite'
   steps:
     - id: sdkman
-      run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.candidate }} ${{ inputs.version }} $(uname)
+      run: ./entrypoint.sh ${{ inputs.candidate }} ${{ inputs.version }} $(uname)
       shell: bash
