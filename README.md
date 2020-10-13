@@ -25,16 +25,11 @@ Filename of the downloaded archive.
 ## Example usage
 
 ```yaml
-- name: Print info
-    id: server
-    run: |
-      echo ::set-output name=uname::$(uname)
 - uses: sdkman/sdkman-action@master
   id: sdkman
   with:
     candidate: java
     version: 15.0.0-amzn
-    platform: Linux
 - uses: actions/setup-java@v1
     id: setup-java
     with:

@@ -8,9 +8,6 @@ inputs:
   version: # id of input
     description: 'Who to greet'
     required: true
-  platform: # id of input
-    description: 'Who to greet'
-    required: false
 outputs:
   file: # id of output
     description: 'The time we greeted you'
@@ -19,5 +16,5 @@ runs:
   using: 'composite'
   steps:
     - id: sdkman
-      run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.candidate }} ${{ inputs.version }} ${{ inputs.platform }}
+      run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.candidate }} ${{ inputs.version }} $(uname)
       shell: bash
