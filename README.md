@@ -30,6 +30,6 @@ Filename of the downloaded archive.
     id: setup-java
     with:
       java-version: 15.0.0
-      jdkFile: ${{ github.workspace }}/${{ steps.sdkman.outputs.file }}
+      jdkFile: ${{ steps.sdkman.outputs.file }}
 - run: java --version
 ```
