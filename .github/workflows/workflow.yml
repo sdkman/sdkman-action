@@ -7,8 +7,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest ]
-        version: [ 15.0.0.hs-adpt, 15.0.0.j9-adpt, 15.0.0-amzn, 15.0.0-zulu, 15.0.0.fx-zulu, 15.0.0.fx-librca, 15.0.0-librca, 15-open, 15.0.0-sapmchn ]
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        version: [ 15.0.0.hs-adpt, 15.0.0.j9-adpt, 15.0.0-zulu, 15.0.0.fx-zulu, 15.0.0.fx-librca, 15.0.0-librca, 15-open, 15.0.0-sapmchn ]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout
@@ -22,7 +22,7 @@ jobs:
     - uses: actions/setup-java@v1
       id: setup-java
       with:
-        java-version: 15.0.0
-        jdkFile: ${{ github.workspace }}/.sdkman/archives/${{ steps.sdkman.outputs.file }}
+        java-version: 15
+        jdkFile: ${{ steps.sdkman.outputs.file }}
     - name: Verify Java ${{ matrix.version }}
       run: java --version

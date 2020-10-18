@@ -1,4 +1,4 @@
-# SDKMAN! docker action
+# SDKMAN! action
 
 This action installs any `candidate` via [sdkman](https://sdkman.io/).
 
@@ -21,7 +21,7 @@ Filename of the downloaded archive.
 ## Example usage
 
 ```yaml
-- uses: sdkman/sdkman-action@v1-preview
+- uses: sdkman/sdkman-action@master
   id: sdkman
   with:
     candidate: java
@@ -30,6 +30,6 @@ Filename of the downloaded archive.
     id: setup-java
     with:
       java-version: 15.0.0
-      jdkFile: ${{ github.workspace }}/.sdkman/archives/${{ steps.sdkman.outputs.file }}
+      jdkFile: ${{ github.workspace }}/${{ steps.sdkman.outputs.file }}
 - run: java --version
 ```
