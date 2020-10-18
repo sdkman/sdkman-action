@@ -1,16 +1,16 @@
 # action.yml
 name: 'Run SDKMAN!'
-description: 'Greet someone and record the time'
+description: 'Download the sdk you want to install'
 inputs:
-  candidate:  # id of input
-    description: 'Who to greet'
+  candidate:
+    description: 'The name of the candidate to install'
     required: true
-  version: # id of input
-    description: 'Who to greet'
+  version:
+    description: 'The version of the candidate to install'
     required: true
 outputs:
-  file: # id of output
-    description: 'The time we greeted you'
+  file:
+    description: 'Filename of the downloaded archive.'
     value: ${{ steps.sdkman.outputs.file }}
 runs:
   using: 'composite'

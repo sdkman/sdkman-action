@@ -1,4 +1,4 @@
-# SDKMAN! docker action
+# SDKMAN! action
 
 This action installs any `candidate` via [sdkman](https://sdkman.io/).
 
@@ -11,10 +11,6 @@ This action installs any `candidate` via [sdkman](https://sdkman.io/).
 ### `version`
 
 **Required** The version of the candidate to install.
-
-### `platform`
-
-**Optional** The version of the candidate to install. For example, for candidates like `java` this is required.
 
 ## Outputs
 
