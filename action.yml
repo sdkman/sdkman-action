@@ -23,6 +23,24 @@ runs:
         platform=$(uname)
         base_name="${candidate}-${version}"
 
+        function __sdkman_echo_debug() {
+        	if [[ "$sdkman_debug_mode" == 'true' ]]; then
+        		echo "$1"
+        	fi
+        }
+
+        function __sdkman_echo() {
+        	if [[ "$sdkman_colour_enable" == 'false' ]]; then
+        		echo -e "$2"
+        	else
+        		echo -e "\033[1;$1$2\033[0m"
+        	fi
+        }
+
+        function __sdkman_echo_green() {
+        	__sdkman_echo "32m" "$1"
+        }
+
         if [ $RUNNER_OS == 'Linux' ] || [ $RUNNER_OS == 'macOS' ]; then
           binary_input="/tmp/${base_name}.bin"
           zip_output="/tmp/${base_name}.zip"
