@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
-        version: [ 15.0.1.hs-adpt, 15.0.1.j9-adpt, 15.0.1-amzn, 15.0.1-zulu, 15.0.1.fx-zulu, 15.0.1.fx-librca, 15.0.1-librca, 15.0.1-open, 15.0.1-sapmchn ]
+        version: [ 17.0.0.35.2-amzn, 21.3.0.r17-grl, 17-open, 17.0.0.fx-librca, 17.0.0-librca, 17.0.0-ms, 17.0.0-oracle, 17-sapmchn, 17.0.0-tem, 17.0.0-zulu, 17.0.0.fx-zulu ]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout
