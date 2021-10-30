@@ -12,12 +12,6 @@ This action installs any `candidate` via [sdkman](https://sdkman.io/).
 
 **Required** The version of the candidate to install.
 
-## Outputs
-
-### `file`
-
-Filename of the downloaded archive.
-
 ## Example usage
 
 ```yaml
@@ -26,10 +20,5 @@ Filename of the downloaded archive.
   with:
     candidate: java
     version: 15.0.0-amzn
-- uses: actions/setup-java@v1
-    id: setup-java
-    with:
-      java-version: 15.0.0
-      jdkFile: ${{ steps.sdkman.outputs.file }}
 - run: java --version
 ```

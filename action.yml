@@ -8,10 +8,6 @@ inputs:
   version:
     description: 'The version of the candidate to install'
     required: true
-outputs:
-  file:
-    description: 'Filename of the downloaded archive.'
-    value: ${{ steps.sdkman.outputs.file }}
 runs:
   using: 'composite'
   steps:
@@ -20,40 +16,6 @@ runs:
       run: |
         candidate=${{ inputs.candidate }}
         version=${{ inputs.version }}
-        platform=$(uname)
-        base_name="${candidate}-${version}"
 
-        function __sdkman_echo_debug() {
-        	if [[ "$sdkman_debug_mode" == 'true' ]]; then
-        		echo "$1"
-        	fi
-        }
-
-        function __sdkman_echo() {
-        	if [[ "$sdkman_colour_enable" == 'false' ]]; then
-        		echo -e "$2"
-        	else
-        		echo -e "\033[1;$1$2\033[0m"
-        	fi
-        }
-
-        function __sdkman_echo_green() {
-        	__sdkman_echo "32m" "$1"
-        }
-
-        if [ $RUNNER_OS == 'Linux' ] || [ $RUNNER_OS == 'macOS' ]; then
-          binary_input="/tmp/${base_name}.bin"
-          zip_output="/tmp/${base_name}.zip"
-
-          curl -L -o $binary_input https://api.sdkman.io/2/broker/download/$candidate/$version/$platform
-          post_installation_hook=hook_post_${candidate}_${version}.sh
-          curl -o "$post_installation_hook" https://api.sdkman.io/2/hooks/post/$candidate/$version/$platform
-          source $post_installation_hook
-          __sdkman_post_installation_hook
-        else
-          zip_output="$base_name.zip"
-          curl -L -o $zip_output https://api.sdkman.io/2/broker/download/$candidate/$version/$platform
-        fi
-
-        echo "::set-output name=file::$zip_output"
-
+        export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io" | bash
+        source $HOME/.sdkman/bin/sdkman-init.sh && sdk install candidate version && sdk flush archives && sdk flush
