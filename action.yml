@@ -18,4 +18,4 @@ runs:
         version=${{ inputs.version }}
 
         export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io" | bash
-        source $HOME/.sdkman/bin/sdkman-init.sh && sdk install candidate version && sdk flush archives && sdk flush
+        source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version && sdk flush archives && sdk flush
