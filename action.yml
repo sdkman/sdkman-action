@@ -8,6 +8,10 @@ inputs:
   version:
     description: 'The version of the candidate to install'
     required: true
+outputs:
+  file:
+    description: 'Filename of the downloaded archive.'
+    value: ${{ steps.sdkman.outputs.file }}
 runs:
   using: 'composite'
   steps:
@@ -18,4 +22,7 @@ runs:
         version=${{ inputs.version }}
 
         export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
-        source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version && sdk flush archives && sdk flush
+        source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version
+
+        zip_output=$HOME/.sdkman/archives/$candidate-$version.zip
+        echo "::set-output name=file::$zip_output"
