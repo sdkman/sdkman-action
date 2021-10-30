@@ -20,4 +20,4 @@ jobs:
         candidate: java
         version: ${{ matrix.version }}
     - name: Verify Java ${{ matrix.version }}
-      run: java --version
+      run: java -version
