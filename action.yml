@@ -55,5 +55,5 @@ runs:
           curl -L -o $zip_output https://api.sdkman.io/2/broker/download/$candidate/$version/$platform
         fi
 
-        echo "::set-output name=file::$zip_output"
+        echo "file=$zip_output" >> $GITHUB_OUTPUT
 
