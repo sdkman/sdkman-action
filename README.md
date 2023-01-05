@@ -25,11 +25,11 @@ Filename of the downloaded archive.
   id: sdkman
   with:
     candidate: java
-    version: 15.0.0-amzn
+    version: 19.0.1-tem
 - uses: actions/setup-java@v1
-    id: setup-java
-    with:
-      java-version: 15.0.0
-      jdkFile: ${{ steps.sdkman.outputs.file }}
+  id: setup-java
+  with:
+    java-version: 19.0.1
+    jdkFile: ${{ steps.sdkman.outputs.file }}
 - run: java --version
 ```
