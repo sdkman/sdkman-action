@@ -1,5 +1,9 @@
 # action.yml
 name: 'Run SDKMAN!'
+author: 'SDKMAN!'
+branding:
+  icon: 'command'
+  color: 'red'
 description: 'Download the sdk you want to install'
 inputs:
   candidate:
