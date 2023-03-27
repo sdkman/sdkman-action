@@ -5,9 +5,11 @@ inputs:
   candidate:
     description: 'The name of the candidate to install'
     required: false
+    default: ''
   version:
     description: 'The version of the candidate to install'
     required: false
+    default: ''
 outputs:
   file:
     description: 'Filename of the downloaded archive.'
