@@ -15,6 +15,18 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - id: install-candidate-in-sdkmanrc
+      shell: bash
+      if: ${{ inputs.candidate == '' && inputs.version == '' }} && env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS'
+      run: |
+        export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
+        source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
+
+        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
+          echo "$child_dir/current/bin" >> $GITHUB_PATH
+        done
+
+        echo "file=" >> $GITHUB_OUTPUT
     - id: install-candidate-in-linux-or-macos
       shell: bash
       if: ${{ inputs.candidate != '' && inputs.version != '' }} && env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS'
@@ -47,15 +59,3 @@ runs:
         done
         
         echo "file=$zip_output" >> $GITHUB_OUTPUT
-    - id: install-candidate-in-sdkmanrc
-      shell: bash
-      if: ${{ inputs.candidate == '' && inputs.version == '' }} && env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS'
-      run: |
-        export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
-        source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
-
-        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
-          echo "$child_dir/current/bin" >> $GITHUB_PATH
-        done
-        
-        echo "file=" >> $GITHUB_OUTPUT
