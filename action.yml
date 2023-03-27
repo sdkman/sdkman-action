@@ -15,7 +15,7 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - id: Install candidate in Linux or macOS
+    - id: install-candidate-in-linux-or-macos
       shell: bash
       if: ${{ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' }} && ${{ inputs.candidate != '' && inputs.version != '' }}
       run: |
@@ -30,7 +30,7 @@ runs:
         done
         
         echo "file=" >> $GITHUB_OUTPUT
-    - id: Install candidate in Windows
+    - id: install-candidate-in-windows
       shell: bash
       if: ${{ $RUNNER_OS == 'Windows' && inputs.candidate != '' && inputs.version != '' }}
       run: |
@@ -47,7 +47,7 @@ runs:
         done
         
         echo "file=$zip_output" >> $GITHUB_OUTPUT
-    - id: Install using .sdkmanrc
+    - id: install-candidate-in-sdkmanrc
       shell: bash
       if: ${{ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' }} && ${{ inputs.candidate == '' && inputs.version == '' }}
       run: |

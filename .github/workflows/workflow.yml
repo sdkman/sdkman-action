@@ -16,8 +16,15 @@ jobs:
     - name: Setup Java ${{ matrix.version }}
       id: sdkman
       uses: ./
+      if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
       with:
         candidate: java
         version: ${{ matrix.version }}
+    - uses: actions/setup-java@v1
+      if: ${{ matrix.os == 'windows-latest' }}
+      id: setup-java
+      with:
+        java-version: 17
+        jdkFile: ${{ steps.sdkman.outputs.file }}
     - name: Verify Java ${{ matrix.version }}
       run: java -version
