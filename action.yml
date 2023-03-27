@@ -8,10 +8,6 @@ inputs:
   version:
     description: 'The version of the candidate to install'
     required: true
-outputs:
-  file:
-    description: 'Filename of the downloaded archive.'
-    value: ${{ steps.sdkman.outputs.file }}
 runs:
   using: 'composite'
   steps:
@@ -24,5 +20,6 @@ runs:
         export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
         source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version
 
-        zip_output=$HOME/.sdkman/archives/$candidate-$version.zip
-        echo "file=$zip_output" >> $GITHUB_OUTPUT
+        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
+          echo "$child_dir/current/bin" >> $GITHUB_PATH
+        done

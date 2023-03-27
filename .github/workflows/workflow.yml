@@ -19,10 +19,5 @@ jobs:
       with:
         candidate: java
         version: ${{ matrix.version }}
-    - uses: actions/setup-java@v1
-      id: setup-java
-      with:
-        java-version: 15
-        jdkFile: ${{ steps.sdkman.outputs.file }}
     - name: Verify Java ${{ matrix.version }}
       run: java -version
