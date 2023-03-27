@@ -5,11 +5,9 @@ inputs:
   candidate:
     description: 'The name of the candidate to install'
     required: false
-    default: ''
   version:
     description: 'The version of the candidate to install'
     required: false
-    default: ''
 outputs:
   file:
     description: 'Filename of the downloaded archive.'
@@ -17,47 +15,31 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - id: install-candidate-in-sdkmanrc
+    - id: sdkman
       shell: bash
-      if: ${{ inputs.candidate == '' && inputs.version == '' }} && env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS'
       run: |
-        export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
-        source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
-
-        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
-          echo "$child_dir/current/bin" >> $GITHUB_PATH
-        done
-
-        echo "file=" >> $GITHUB_OUTPUT
-    - id: install-candidate-in-linux-or-macos
-      shell: bash
-      if: ${{ inputs.candidate != '' && inputs.version != '' }} && env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS'
-      run: |
-        candidate=${{ inputs.candidate }}
-        version=${{ inputs.version }}
-
-        export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
-        source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version
-
-        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
-          echo "$child_dir/current/bin" >> $GITHUB_PATH
-        done
-        
-        echo "file=" >> $GITHUB_OUTPUT
-    - id: install-candidate-in-windows
-      shell: bash
-      if: env.RUNNER_OS == 'Windows' && ${{ inputs.candidate != '' && inputs.version != '' }}
-      run: |
-        candidate=${{ inputs.candidate }}
-        version=${{ inputs.version }}
-        platform=$(uname)
-        base_name="${candidate}-${version}"
-
-        zip_output="$base_name.zip"
-        curl -L -o $zip_output https://api.sdkman.io/2/broker/download/$candidate/$version/$platform
-
-        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
-          echo "$child_dir/current/bin" >> $GITHUB_PATH
-        done
-        
-        echo "file=$zip_output" >> $GITHUB_OUTPUT
+        if [ env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS' ]; then
+          export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
+          if [ inputs.candidate == '' && inputs.version == '' ]; then
+            source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
+          else
+            candidate=${{ inputs.candidate }}
+            version=${{ inputs.version }}
+            source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version
+          fi
+          echo "file=" >> $GITHUB_OUTPUT
+        else
+          candidate=${{ inputs.candidate }}
+          version=${{ inputs.version }}
+          platform=$(uname)
+          base_name="${candidate}-${version}"
+  
+          zip_output="$base_name.zip"
+          curl -L -o $zip_output https://api.sdkman.io/2/broker/download/$candidate/$version/$platform
+  
+          for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
+            echo "$child_dir/current/bin" >> $GITHUB_PATH
+          done
+          
+          echo "file=$zip_output" >> $GITHUB_OUTPUT
+        fi
