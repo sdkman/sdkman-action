@@ -1,4 +1,4 @@
-name: Main workflow
+name: Test using .sdkmanrc
 on: [push, pull_request]
 
 jobs:
