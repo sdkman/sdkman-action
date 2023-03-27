@@ -25,4 +25,4 @@ runs:
         source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version
 
         zip_output=$HOME/.sdkman/archives/$candidate-$version.zip
-        echo "::set-output name=file::$zip_output"
+        echo "file=$zip_output" >> $GITHUB_OUTPUT
