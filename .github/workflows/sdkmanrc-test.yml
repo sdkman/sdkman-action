@@ -1,0 +1,19 @@
+name: Main workflow
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: "JDK ${{ matrix.version }} on ${{ matrix.os }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-latest, ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Java ${{ matrix.version }}
+      id: sdkman
+      uses: ./
+    - name: Verify Java ${{ matrix.version }}
+      run: java -version
