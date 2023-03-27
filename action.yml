@@ -17,7 +17,7 @@ runs:
   steps:
     - id: install-candidate-in-linux-or-macos
       shell: bash
-      if: env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS' && ${{ inputs.candidate != '' && inputs.version != '' }}
+      if: ${{ inputs.candidate != '' && inputs.version != '' }} && env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS'
       run: |
         candidate=${{ inputs.candidate }}
         version=${{ inputs.version }}
@@ -49,7 +49,7 @@ runs:
         echo "file=$zip_output" >> $GITHUB_OUTPUT
     - id: install-candidate-in-sdkmanrc
       shell: bash
-      if: env.UNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS' && ${{ inputs.candidate == '' && inputs.version == '' }}
+      if: ${{ inputs.candidate == '' && inputs.version == '' }} && env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS'
       run: |
         export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
         source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
