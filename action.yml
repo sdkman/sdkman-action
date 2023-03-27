@@ -4,21 +4,32 @@ description: 'Download the sdk you want to install'
 inputs:
   candidate:
     description: 'The name of the candidate to install'
-    required: true
+    required: false
   version:
     description: 'The version of the candidate to install'
-    required: true
+    required: false
 runs:
   using: 'composite'
   steps:
-    - id: sdkman
+    - id: Install candidate
       shell: bash
+      if: ${{ inputs.candidate != '' && inputs.version != '' }}
       run: |
         candidate=${{ inputs.candidate }}
         version=${{ inputs.version }}
 
         export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
         source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version
+
+        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
+          echo "$child_dir/current/bin" >> $GITHUB_PATH
+        done
+    - id: Install using .sdkmanrc
+      shell: bash
+      if: ${{ inputs.candidate == '' && inputs.version == '' }}
+      run: |
+        export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
+        source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
 
         for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
           echo "$child_dir/current/bin" >> $GITHUB_PATH
