@@ -8,12 +8,16 @@ inputs:
   version:
     description: 'The version of the candidate to install'
     required: false
+outputs:
+  file:
+    description: 'Filename of the downloaded archive.'
+    value: ${{ steps.sdkman.outputs.file }}
 runs:
   using: 'composite'
   steps:
-    - id: Install candidate
+    - id: Install candidate in Linux or macOS
       shell: bash
-      if: ${{ inputs.candidate != '' && inputs.version != '' }}
+      if: ${{ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' }} && ${{ inputs.candidate != '' && inputs.version != '' }}
       run: |
         candidate=${{ inputs.candidate }}
         version=${{ inputs.version }}
@@ -24,9 +28,28 @@ runs:
         for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
           echo "$child_dir/current/bin" >> $GITHUB_PATH
         done
+        
+        echo "file=" >> $GITHUB_OUTPUT
+    - id: Install candidate in Windows
+      shell: bash
+      if: ${{ $RUNNER_OS == 'Windows' && inputs.candidate != '' && inputs.version != '' }}
+      run: |
+        candidate=${{ inputs.candidate }}
+        version=${{ inputs.version }}
+        platform=$(uname)
+        base_name="${candidate}-${version}"
+
+        zip_output="$base_name.zip"
+        curl -L -o $zip_output https://api.sdkman.io/2/broker/download/$candidate/$version/$platform
+
+        for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
+          echo "$child_dir/current/bin" >> $GITHUB_PATH
+        done
+        
+        echo "file=$zip_output" >> $GITHUB_OUTPUT
     - id: Install using .sdkmanrc
       shell: bash
-      if: ${{ inputs.candidate == '' && inputs.version == '' }}
+      if: ${{ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' }} && ${{ inputs.candidate == '' && inputs.version == '' }}
       run: |
         export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
         source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
@@ -34,3 +57,5 @@ runs:
         for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
           echo "$child_dir/current/bin" >> $GITHUB_PATH
         done
+        
+        echo "file=" >> $GITHUB_OUTPUT
