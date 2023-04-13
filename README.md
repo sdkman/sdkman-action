@@ -1,16 +1,17 @@
 # SDKMAN! action
 
-This action installs any `candidate` via [sdkman](https://sdkman.io/).
+This action installs any `candidate` via [sdkman](https://sdkman.io/). If inputs are provided then the 
+`sdk install <candidate> <version>` command will be executed. Otherwise, the `sdk env install` command will be executed.
 
 ## Inputs
 
 ### `candidate`
 
-**Required** The name of the candidate to install.
+**Optional** The name of the candidate to install.
 
 ### `version`
 
-**Required** The version of the candidate to install.
+**Optional** The version of the candidate to install.
 
 ## Outputs
 
@@ -20,16 +21,38 @@ Filename of the downloaded archive.
 
 ## Example usage
 
+Install a specific candidate in using Windows runner:
+
 ```yaml
 - uses: sdkman/sdkman-action@master
   id: sdkman
   with:
     candidate: java
     version: 15.0.0-amzn
-- uses: actions/setup-java@v1
+- uses: actions/setup-java@v3
     id: setup-java
     with:
+      distribution: 'jdkfile'
       java-version: 15.0.0
       jdkFile: ${{ steps.sdkman.outputs.file }}
-- run: java --version
+- run: java -version
+```
+
+Install a specific candidate in Linux or macOS runner:
+
+```yaml
+- uses: sdkman/sdkman-action@master
+  id: sdkman
+  with:
+    candidate: java
+    version: 15.0.0-amzn
+- run: java -version
+```
+
+Install candidates from `.sdkmanrc` in Linux or macOS runner:
+
+```yaml
+- uses: sdkman/sdkman-action@master
+  id: sdkman
+- run: java -version
 ```
