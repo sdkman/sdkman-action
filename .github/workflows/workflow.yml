@@ -16,7 +16,6 @@ jobs:
     - name: Setup Java ${{ matrix.version }}
       id: sdkman
       uses: ./
-      if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
       with:
         candidate: java
         version: ${{ matrix.version }}
