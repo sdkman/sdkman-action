@@ -29,7 +29,7 @@ Install a specific candidate in using Windows runner:
   with:
     candidate: java
     version: 15.0.0-amzn
-- uses: actions/setup-java@v1
+- uses: actions/setup-java@v3
     id: setup-java
     with:
       java-version: 15.0.0
