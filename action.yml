@@ -27,6 +27,9 @@ runs:
             version=${{ inputs.version }}
             source $HOME/.sdkman/bin/sdkman-init.sh && sdk install $candidate $version
           fi
+          for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
+            echo "$child_dir/current/bin" >> $GITHUB_PATH
+          done
           echo "file=" >> $GITHUB_OUTPUT
         else
           candidate=${{ inputs.candidate }}
@@ -36,10 +39,6 @@ runs:
   
           zip_output="$base_name.zip"
           curl -L -o $zip_output https://api.sdkman.io/2/broker/download/$candidate/$version/$platform
-  
-          for child_dir in $(find "$SDKMAN_DIR/candidates" -mindepth 1 -maxdepth 1 -type d); do
-            echo "$child_dir/current/bin" >> $GITHUB_PATH
-          done
           
           echo "file=$zip_output" >> $GITHUB_OUTPUT
         fi
