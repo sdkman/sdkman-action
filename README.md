@@ -35,7 +35,7 @@ Install a specific candidate in using Windows runner:
       distribution: 'jdkfile'
       java-version: 15.0.0
       jdkFile: ${{ steps.sdkman.outputs.file }}
-- run: java --version
+- run: java -version
 ```
 
 Install a specific candidate in Linux or macOS runner:
@@ -46,7 +46,7 @@ Install a specific candidate in Linux or macOS runner:
   with:
     candidate: java
     version: 15.0.0-amzn
-- run: java --version
+- run: java -version
 ```
 
 Install candidates from `.sdkmanrc` in Linux or macOS runner:
@@ -54,5 +54,5 @@ Install candidates from `.sdkmanrc` in Linux or macOS runner:
 ```yaml
 - uses: sdkman/sdkman-action@master
   id: sdkman
-- run: java --version
+- run: java -version
 ```
