@@ -18,9 +18,9 @@ runs:
     - id: sdkman
       shell: bash
       run: |
-        if [ env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS' ]; then
+        if [[ env.RUNNER_OS == 'Linux' || env.RUNNER_OS == 'macOS' ]]; then
           export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
-          if [ inputs.candidate == '' && inputs.version == '' ]; then
+          if [[ -z "${{ inputs.candidate }}" && -z "${{ inputs.version }}" ]]; then
             source $HOME/.sdkman/bin/sdkman-init.sh && sdk env install
           else
             candidate=${{ inputs.candidate }}
