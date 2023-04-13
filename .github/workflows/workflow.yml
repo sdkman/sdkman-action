@@ -24,6 +24,7 @@ jobs:
       if: ${{ matrix.os == 'windows-latest' }}
       id: setup-java
       with:
+        distribution: 'jdkfile'
         java-version: 17
         jdkFile: ${{ steps.sdkman.outputs.file }}
     - name: Verify Java ${{ matrix.version }}

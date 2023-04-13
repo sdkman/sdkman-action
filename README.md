@@ -32,6 +32,7 @@ Install a specific candidate in using Windows runner:
 - uses: actions/setup-java@v3
     id: setup-java
     with:
+      distribution: 'jdkfile'
       java-version: 15.0.0
       jdkFile: ${{ steps.sdkman.outputs.file }}
 - run: java --version
