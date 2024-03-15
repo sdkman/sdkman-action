@@ -24,7 +24,7 @@ Filename of the downloaded archive.
 Install a specific candidate in using Windows runner:
 
 ```yaml
-- uses: sdkman/sdkman-action@v1
+- uses: sdkman/sdkman-action@main
   id: sdkman
   with:
     candidate: java
@@ -41,7 +41,7 @@ Install a specific candidate in using Windows runner:
 Install a specific candidate in Linux or macOS runner:
 
 ```yaml
-- uses: sdkman/sdkman-action@v1
+- uses: sdkman/sdkman-action@main
   id: sdkman
   with:
     candidate: java
@@ -52,7 +52,7 @@ Install a specific candidate in Linux or macOS runner:
 Install candidates from `.sdkmanrc` in Linux or macOS runner:
 
 ```yaml
-- uses: sdkman/sdkman-action@v1
+- uses: sdkman/sdkman-action@main
   id: sdkman
 - run: java -version
 ```
